@@ -1,0 +1,9 @@
+FROM python:3.10
+LABEL authors="Wikoria Dębowska"
+
+WORKDIR /app/automatic
+
+COPY requirements.txt /app/automatic
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app/automatic
+
