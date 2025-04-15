@@ -1,9 +1,13 @@
 FROM python:3.10
 LABEL authors="Wikoria Dębowska"
 
-WORKDIR /app/automatic
-
-COPY requirements.txt /app/automatic
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . /app/automatic
 
+COPY . .
+
+# Expose the port Flask runs on
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "app.py"]
