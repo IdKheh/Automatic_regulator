@@ -4,3 +4,5 @@ venv/
 /venv
 *.png
 
+controller/_pycache_/
+/controller/__pycache__/

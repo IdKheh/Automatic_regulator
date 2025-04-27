@@ -3,3 +3,4 @@ venv
 docker-compose.yml
 Dockerfile_web
 *.png
+/controller/__pycache__/

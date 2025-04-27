@@ -10,11 +10,11 @@ t_sym = 1800 # czas symulacji [s]
 Q_d1 = 0.01 # doplyw wody [m^3/s]
 Q_d2 = [0] # doplyw wody [m^3/s]
 
-Q_d2_min, Q_d2_max = 0, 0.06 #doplyw wody min, max [m^3/s]
+Q_d2_min, Q_d2_max = 0, 0.04 #doplyw wody min, max [m^3/s]
 
 Q_o = [0.00] #odplyw wody [m^3/s]
 Q_o_min = 0 #odplyw wody min [m^3/s]
-Q_o_max = 0.1 #odplyw wody max [m^3/s]
+Q_o_max = 0.00005 #odplyw wody max [m^3/s]
 
 c_d1 = 0.0 # stężenie [%] [0.0 - 1.0]
 c_d2 = [0] # stężenie [%] [0.0 - 1.0]
@@ -30,7 +30,7 @@ upi= []
 V = [V_0]
 e = [] #uchyb [%]
 c = [0] #stezenie
-c_zadane = 0.4 # [%]
+c_zadane = 0.1 # [%]
 V_min = 0
 V_max = 5
 
