@@ -1,7 +1,7 @@
-from .classic_regulator import classic
-from .fuzzy_regulator import fuzzy
+from .ClassicPI import ClassicPI
+from .FuzzyPI import FuzzyPI
 
 __all__ = [
-    'classic',
-    'fuzzy',
+    'ClassicPI',
+    'FuzzyPI',
 ]

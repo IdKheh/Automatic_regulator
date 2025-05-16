@@ -1,0 +1,181 @@
+/* style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    background-color: #1E90FF;
+    color: white;
+    padding: 5vh 0;
+    margin: 0;
+}
+
+h3 {
+    color: #1E90FF;
+    margin-top: 30px;
+    padding-left: 20px;
+}
+
+ol {
+    margin: 0 40px;
+    text-align: justify;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+form {
+    text-align: center;
+    margin: 50px 25%;
+    width: 50%;
+    padding: 1%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+input[type="button"] {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 10px 10px 0 0;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="button"]:hover:not(:disabled) {
+    background-color: #0d74d1;
+}
+
+input[type="button"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#charts {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.plot-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.plot-row .obrazek {
+    flex: 1 1 45%;
+    text-align: center;
+}
+
+.plot-row img {
+    width: 90%;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 3vh 0;
+    background-color: #1E90FF;
+    color: white;
+    font-size: 14px;
+}
+
+
+input[type=range] {
+    -webkit-appearance: none; /* Remove default styling */
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s;
+    margin: 5px 0 20px 0;
+  }
+  
+  input[type=range]:hover {
+    background: #ccc;
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0d74d1;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6);
+    transition: background 0.3s;
+  }
+  
+  input[type=range]::-webkit-slider-thumb:hover {
+    background: #007bff; /* Blue on hover */
+  }
+  
+  input[type=range]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0d74d1;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6);
+    transition: background 0.3s;
+  }
+  
+  input[type=range]::-moz-range-thumb:hover {
+    background: #007bff;
+  }
+  
+  .slider-label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+
+  .error-container {
+    text-align: center;
+    margin-top: 15vh;
+    padding: 20px;
+}
+
+.error-container h2 {
+    font-size: 3em;
+    color: #1E90FF;
+    margin-bottom: 10px;
+}
+
+.error-container p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.error-container a {
+    background-color: #1E90FF;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.error-container a:hover {
+    background-color: #0d74d1;
+}

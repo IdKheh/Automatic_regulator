@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Układ regulacji</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Regulacja stężeń alkoholu w zbiorniku</h1>
+
+    <h3>Instrukcja obsługi</h3>
+    <ol>
+        <li>Ustaw parametry poniżej.</li>
+        <li>Naciśnij Start – rozpocznie się symulacja regulatora.</li>
+        <li>Naciśnij Wygeneruj wykres, aby zobaczyć dane z eksperymentu.</li>
+    </ol>
+
+    <form id="controlForm">
+        <label class="slider-label">Nastawa regulatora kp: <span id="kpVal">{{ params.kp }}</span></label>
+        <input type="range" name="kp" min="0.1" max="0.5" step="0.05" value="{{ params.kp }}" oninput="kpVal.innerText = this.value"><br>
+
+        <label class="slider-label">Nastawa regulatora Ti: <span id="TiVal">{{ params.Ti }}</span></label>
+        <input type="range" name="Ti" min="2.5" max="5" step="0.1" value="{{ params.Ti }}" oninput="TiVal.innerText = this.value"><br>
+
+        <label class="slider-label">Stężenie jakie chcemy otrzymać [%]: <span id="c_zadaneVal">{{ params.c_zadane }}</span></label>
+        <input type="range" name="c_zadane" min="1" max="98" step="1" value="{{ params.c_zadane }}" oninput="c_zadaneVal.innerText = this.value"><br>
+
+        <label class="slider-label">Okres próbkowania [s]: <span id="TpVal">{{ params.Tp }}</span></label>
+        <input type="range" name="Tp" min="0.01" max="0.2" step="0.01" value="{{ params.Tp }}" oninput="TpVal.innerText = this.value"><br>
+
+        <label class="slider-label">Czas symulacji [s]: <span id="t_symVal">{{ params.t_sym }}</span></label>
+        <input type="range" name="t_sym" min="400" max="3000" step="100" value="{{ params.t_sym }}" oninput="t_symVal.innerText = this.value"><br><br>
+
+        <input id="start" type="button" value="Start">
+        <input id="wyswietlanie" type="button" value="Wyświetl wykresy">
+        <input id="reset" type="button" value="Reset">
+    </form>
+    <div style="clear:both;"></div>
+
+    <div id="charts" style="display: none;" >
+        <h3>Porównanie: klasyczny PI vs. rozmyty PI</h3>
+    
+        <div class="plot-row">
+            <div class="obrazek">
+                <img id="img1" src="" alt="classic PI dopływ">
+            </div>
+            <div class="obrazek">
+                <img id="img2" src="" alt="fuzzy PI dopływ">
+            </div>
+        </div>
+        
+        <div class="plot-row">
+            <div class="obrazek">
+                <img id="img3" src="" alt="classic PI objętość">
+            </div>
+            <div class="obrazek">
+                <img id="img4" src="" alt="fuzzy PI objętość">
+            </div>
+        </div>
+        
+        <div class="plot-row">
+            <div class="obrazek">
+                <img id="img5" src="" alt="classic PI stężenie">
+            </div>
+            <div class="obrazek">
+                <img id="img6" src="" alt="fuzzy PI stężenie">
+            </div>
+        </div>
+    </div>
+
+    <footer>Wszelkie prawa zastrzeżone. &copy; Autorzy 2025 </footer>
+
+    <script>
+        document.getElementById('wyswietlanie').disabled = true;
+
+        function getParams() {
+            const form = document.getElementById('controlForm');
+            return {
+                kp: parseFloat(form.kp.value),
+                Ti: parseFloat(form.Ti.value),
+                c_zadane: parseInt(form.c_zadane.value),
+                Tp: parseFloat(form.Tp.value),
+                t_sym: parseInt(form.t_sym.value)
+            };
+        }
+
+        function ExecPythonCommand(cmd) {
+            let request = new XMLHttpRequest();
+            request.open("GET", "/" + cmd, true);
+            request.send();
+            console.log(cmd);
+        }
+
+        function start() {
+            const p = getParams();
+
+            document.getElementById('wyswietlanie').disabled = true;
+            ExecPythonCommand(`start(${p.kp},${p.Ti},${p.c_zadane},${p.Tp},${p.t_sym})`);
+            document.getElementById('wyswietlanie').disabled = false;
+        }
+
+        function reset() {
+            document.getElementById('charts').style.display = "none";
+
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById('img' + i).src = "";
+            }
+        }
+
+        document.getElementById('start').addEventListener("click", start);
+        document.getElementById('reset').addEventListener("click", reset);
+        document.getElementById('wyswietlanie').addEventListener("click", function () {
+            document.getElementById('charts').style.display = "block";
+
+            document.getElementById('img1').src = `/static/classic_pi_doplyw.png`;
+            document.getElementById('img2').src = `/static/fuzzy_pi_doplyw.png`;
+
+            document.getElementById('img3').src = `/static/classic_pi_objetosc.png`;
+            document.getElementById('img4').src = `/static/fuzzy_pi_objetosc.png`;
+
+            document.getElementById('img5').src = `/static/classic_pi_stezenie.png`;
+            document.getElementById('img6').src = `/static/fuzzy_pi_stezenie.png`;
+        });
+    </script>
+</body>
+</html>
