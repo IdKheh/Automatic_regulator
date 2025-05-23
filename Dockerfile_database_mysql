@@ -1,0 +1,12 @@
+LABEL authors="CP24"
+FROM python:3.10
+LABEL authors="Alina Kobylecka"
+
+WORKDIR /app
+
+COPY app/requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY app .
+
+CMD ["python", "main.py"]

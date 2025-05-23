@@ -4,6 +4,8 @@ from controller import *
 import plotly.express as px
 import pandas as pd
 
+import mysql.connector
+
 
 app = Flask(__name__)
 
@@ -45,6 +47,20 @@ def start(kp: float, Ti: float, c_zadane: int, Tp: float, t_sym: int):
     fuzzy.calculate()
     fuzzy.savePlot()
     return ""
+
+
+conn = mysql.connector.connect(
+    host='db',
+    user='user',
+    password='password',
+    database='testdb'
+)
+cursor = conn.cursor()
+cursor.execute("SHOW TABLES;")
+for table in cursor.fetchall():
+    print(table)
+cursor.close()
+conn.close()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
