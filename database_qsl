@@ -1,0 +1,36 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="wkiaala",
+  password="admin123!"
+
+)
+
+mycursor = mydb.cursor()
+mycursor.execute("CREATE DATABASE IF NOT EXISTS automatic_regulator")
+mycursor.execute("USE automatic_regulator")
+
+mycursor.execute("""
+CREATE TABLE IF NOT EXISTS tableRegulator (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    kp1 INT,
+    Ti1 INT,
+    percent1 INT,
+    Tp1 INT,
+    t_sym1 INT
+)
+""")
+
+# Przykładowe wartości zmiennych
+kp = 10
+Ti = 5
+percent = 50
+Tp = 100
+t_sym = 20
+
+sql = "INSERT INTO tableRegulator (kp1, Ti1, percent1, Tp1, t_sym1) VALUES (%s, %s, %s, %s, %s)"
+val = (kp, Ti, percent, Tp, t_sym)
+
+mycursor.execute(sql, val)
+mydb.commit()
