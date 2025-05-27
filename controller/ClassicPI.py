@@ -15,7 +15,7 @@ class ClassicPI:
 
         self.__Q_o = [0.00]  # odplyw wody [m^3/s]
         self.__Q_o_min = 0  # odplyw wody min [m^3/s]
-        self.__Q_o_max = 0.00005  # odplyw wody max [m^3/s]
+        self.__Q_o_max = 0.025  # odplyw wody max [m^3/s]
 
         self.__c_d1 = 0.0  # stężenie [%] [0.0 - 1.0]
         self.__c_d2 = [0]  # stężenie [%] [0.0 - 1.0]
@@ -32,7 +32,7 @@ class ClassicPI:
         self.__c = [0]  # stezenie
         self.__c_zadane = c_zadane  # [%]
         self.__V_min = 0
-        self.__V_max = 5
+        self.__V_max = 25
 
         self.__kp = kp  # nastawa regulatora
         self.__Ti = Ti  # czas zdwojenia [s], [2.5 - 5.0]
@@ -47,7 +47,8 @@ class ClassicPI:
             self.__u.append(max(min(self.__upi[-1], self.__u_max), self.__u_min))
             
             self.__Q_d2.append((self.__Q_d2_max - self.__Q_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__Q_d2_min)
-            self.__Q_o.append(max(min(self.__beta*math.sqrt(self.__V[-1]), self.__Q_o_max), self.__Q_o_min))
+            #value = self.__beta*math.sqrt(self.__V[-1])
+            self.__Q_o.append(max(self.__Q_o_min, min(self.__Q_o_max, self.__beta*math.sqrt(self.__V[-1]))))
             self.__c_d2.append((self.__c_d2_max - self.__c_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__c_d2_min)
             
             V_new = self.__Tp * (self.__Q_d1+self.__Q_d2[-1]-self.__Q_o[-1])+self.__V[-1]
@@ -67,7 +68,7 @@ class ClassicPI:
         ))
         fig = px.line(df, x="Time", y="Height",
                     title="Przebieg zmian poziomów alkoholu w zbiorniku dla regulatora klasycznego",
-                    labels={"Time": "Okres próbkowania (s)", "Height": "Wysokość (m)","variable": ""})
+                    labels={"Time": "Okres próbkowania [s]", "Height": "Objętość [m³]","variable": ""})
         fig.write_image("static/classic_pi_objetosc.png")
 
 

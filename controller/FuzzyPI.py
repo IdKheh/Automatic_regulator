@@ -16,7 +16,7 @@ class FuzzyPI:
 
         self.__Q_o = [0.00]  # odplyw wody [m^3/s]
         self.__Q_o_min = 0  # odplyw wody min [m^3/s]
-        self.__Q_o_max = 0.00005  # odplyw wody max [m^3/s]
+        self.__Q_o_max = 0.025  # odplyw wody max [m^3/s]
 
         self.__c_d1 = 0.0  # stężenie [%] [0.0 - 1.0]
         self.__c_d2 = [0]  # stężenie [%] [0.0 - 1.0]
@@ -33,7 +33,7 @@ class FuzzyPI:
         self.__c = [0]  # stezenie
         self.__c_zadane = c_zadane  # [%]
         self.__V_min = 0
-        self.__V_max = 5
+        self.__V_max = 25
 
         self.__t = [0]  # czas symulacji
         self.__n = int(round(self.__t_sym / self.__Tp, 0))
@@ -92,14 +92,14 @@ class FuzzyPI:
     def savePlot(self):
         df1 = pd.DataFrame(dict(Time=self.__t, Height=self.__V))
         fig1 = px.line(df1, x="Time", y="Height", 
-                       title="Przebieg zmian poziomów alkoholu w zbiorniku dla regulatora rozmytego",
-                       labels={"Time": "Czas [s]", "Height": "Wysokość [m]"})
+                        title="Przebieg zmian poziomów alkoholu w zbiorniku dla regulatora rozmytego",
+                        labels={"Time": "Okres próbkowania [s]", "Height": "Objętość [m³]","variable": ""})
         fig1.write_image("static/fuzzy_pi_objetosc.png")
 
         df2 = pd.DataFrame(dict(Time=self.__t, Odplyw=self.__Q_o, Doplyw1=[self.__Q_d1] * len(self.__t), Doplyw2=self.__Q_d2))
         fig2 = px.line(df2, x="Time", y=["Doplyw1", "Doplyw2", "Odplyw"], 
                        title="Przebieg zmian dopływu i odpływu alkoholu w czasie dla regulatora rozmytego", 
-                       labels={"Time": "Czas [s]", "value": "Przepływ [m³/s]", "variable": "Rodzaj"})
+                       labels={"Time": "Czas [s]", "value": "Przepływ [m³/s]", "variable": "Rodzaj przepływu"})
         fig2.write_image("static/fuzzy_pi_doplyw.png")
 
         df3 = pd.DataFrame(dict(
@@ -111,5 +111,5 @@ class FuzzyPI:
         ))
         fig3 = px.line(df3, x="Time", y=["Doplyw1", "Doplyw2", "Odplyw", "Zadane"], 
                        title="Przebieg zmian stężenia w czasie dla regulatora rozmytego", 
-                       labels={"Time": "Czas [s]", "value": "Stężenie [%]", "variable": "Typ"})
+                       labels={"Time": "Czas [s]", "value": "Stężenie substancji [%]", "variable": "Typ"})
         fig3.write_image("static/fuzzy_pi_stezenie.png")
