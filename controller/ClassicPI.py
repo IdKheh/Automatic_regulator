@@ -11,7 +11,7 @@ class ClassicPI:
         self.__Q_d1 = [0]  # doplyw wody [m^3/s]
         self.__Q_d2 = 0.01  # doplyw wody [m^3/s]
 
-        self.__Q_d2_min, self.__Q_d2_max = 0, 0.04  # doplyw wody min, max [m^3/s]
+        self.__Q_d1_min, self.__Q_d1_max = 0, 0.04  # doplyw wody min, max [m^3/s]
 
         self.__Q_o = [0.00]  # odplyw wody [m^3/s]
         #self.__Q_o_min = 0  # odplyw wody min [m^3/s]
@@ -46,7 +46,7 @@ class ClassicPI:
             self.__upi.append(self.__kp*(self.__e[-1] + (self.__Tp/self.__Ti)*sum(self.__e)))
             self.__u.append(max(min(self.__upi[-1], self.__u_max), self.__u_min))
             
-            self.__Q_d1.append((self.__Q_d2_max - self.__Q_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__Q_d2_min)
+            self.__Q_d1.append((self.__Q_d1_max - self.__Q_d1_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__Q_d1_min)
             self.__Q_o.append(self.__beta*math.sqrt(self.__V[-1]))
             self.__c_d2.append((self.__c_d2_max - self.__c_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__c_d2_min)
             
