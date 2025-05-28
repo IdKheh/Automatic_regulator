@@ -8,18 +8,18 @@ class ClassicPI:
         self.__Tp = Tp  # okres probkowania [s]
         self.__V_0 = 0  # objętość poczatkowa [m^3]
         self.__t_sym = t_sym  # czas symulacji [s]
-        self.__Q_d1 = 0.01  # doplyw wody [m^3/s]
-        self.__Q_d2 = [0]  # doplyw wody [m^3/s]
+        self.__Q_d1 = [0]  # doplyw wody [m^3/s]
+        self.__Q_d2 = 0.01  # doplyw wody [m^3/s]
 
         self.__Q_d2_min, self.__Q_d2_max = 0, 0.04  # doplyw wody min, max [m^3/s]
 
         self.__Q_o = [0.00]  # odplyw wody [m^3/s]
-        self.__Q_o_min = 0  # odplyw wody min [m^3/s]
-        self.__Q_o_max = 0.025  # odplyw wody max [m^3/s]
+        #self.__Q_o_min = 0  # odplyw wody min [m^3/s]
+        #self.__Q_o_max = 0.025  # odplyw wody max [m^3/s]
 
-        self.__c_d1 = 0.0  # stężenie [%] [0.0 - 1.0]
+        self.__c_d1 = 0.98  # stężenie [%] [0.0 - 1.0]
         self.__c_d2 = [0]  # stężenie [%] [0.0 - 1.0]
-        self.__c_d2_min, self.__c_d2_max = 0.0, 0.98
+        self.__c_d2_min, self.__c_d2_max = 0.01, 0.4
         self.__c_min, self.__c_max = min(self.__c_d1, self.__c_d2_min), max(self.__c_d1, self.__c_d2_max)
 
         self.__u_min = 0  # wartość prądu z regulatora min [V]
@@ -46,14 +46,13 @@ class ClassicPI:
             self.__upi.append(self.__kp*(self.__e[-1] + (self.__Tp/self.__Ti)*sum(self.__e)))
             self.__u.append(max(min(self.__upi[-1], self.__u_max), self.__u_min))
             
-            self.__Q_d2.append((self.__Q_d2_max - self.__Q_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__Q_d2_min)
-            #value = self.__beta*math.sqrt(self.__V[-1])
-            self.__Q_o.append(max(self.__Q_o_min, min(self.__Q_o_max, self.__beta*math.sqrt(self.__V[-1]))))
+            self.__Q_d1.append((self.__Q_d2_max - self.__Q_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__Q_d2_min)
+            self.__Q_o.append(self.__beta*math.sqrt(self.__V[-1]))
             self.__c_d2.append((self.__c_d2_max - self.__c_d2_min) / (self.__u_max - self.__u_min) * (self.__u[-1] - self.__u_min) + self.__c_d2_min)
             
-            V_new = self.__Tp * (self.__Q_d1+self.__Q_d2[-1]-self.__Q_o[-1])+self.__V[-1]
+            V_new = self.__Tp * (self.__Q_d2+self.__Q_d1[-1]-self.__Q_o[-1])+self.__V[-1]
             if self.__V[-1]!=0 :
-                c_new = (1 / self.__V[-1]) * (self.__Q_d1 * (self.__c_d1 - self.__c[-1]) + self.__Q_d2[-1] * (self.__c_d2[-1] - self.__c[-1])) * self.__Tp + self.__c[-1]
+                c_new = (1 / self.__V[-1]) * (self.__Q_d1[-1] * (self.__c_d1 - self.__c[-1]) + self.__Q_d2 * (self.__c_d2[-1] - self.__c[-1])) * self.__Tp + self.__c[-1]
             else : c_new = 0
             
             self.__V.append(max(min(V_new, self.__V_max), self.__V_min))
@@ -76,8 +75,8 @@ class ClassicPI:
         df = pd.DataFrame(dict(
             Time=self.__t,
             Odplyw=self.__Q_o,
-            Doplyw1=[self.__Q_d1] * (self.__n+1),
-            Doplyw2=self.__Q_d2
+            Doplyw1=self.__Q_d1,
+            Doplyw2=[self.__Q_d2] * (self.__n+1)
         ))
 
         fig = px.line(df, x="Time", y=["Doplyw1", "Doplyw2", "Odplyw"],
