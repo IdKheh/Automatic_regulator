@@ -67,7 +67,7 @@ class ClassicPI:
         ))
         fig = px.line(df, x="Time", y="Height",
                     title="Przebieg zmian poziomów alkoholu w zbiorniku dla regulatora klasycznego",
-                    labels={"Time": "Okres próbkowania [s]", "Height": "Objętość [m³]","variable": ""})
+                    labels={"Time": "Czas [s]", "Height": "Objętość [m³]","variable": ""})
         fig.write_image("static/classic_pi_objetosc.png")
 
 

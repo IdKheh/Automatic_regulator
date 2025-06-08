@@ -95,7 +95,7 @@ class FuzzyPI:
         df1 = pd.DataFrame(dict(Time=self.__t, Height=self.__V))
         fig1 = px.line(df1, x="Time", y="Height", 
                         title="Przebieg zmian poziomów alkoholu w zbiorniku dla regulatora rozmytego",
-                        labels={"Time": "Okres próbkowania [s]", "Height": "Objętość [m³]","variable": ""})
+                        labels={"Time": "Czas [s]", "Height": "Objętość [m³]","variable": ""})
         fig1.write_image("static/fuzzy_pi_objetosc.png")
 
         df2 = pd.DataFrame(dict(Time=self.__t, Odplyw=self.__Q_o, Doplyw1=  self.__Q_d1 , Doplyw2 = [self.__Q_d2] * len(self.__t)))
